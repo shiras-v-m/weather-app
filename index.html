@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>weather App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container" id="frame">
+        <nav>
+            <div class="logo">
+                <img src="wethear app icon.png" alt="icon">
+                <label for="">weather App</label>
+            </div>
+        </nav>
+
+        <div class="searchBox">
+            <div class="content">
+                <input id="city" type="text" placeholder="Enter City name...">
+            <button type="button" onclick="search()"><img src="search-icon.svg" alt=""></button>
+            <button type="button"><img src="close icon.svg" alt="close icon"></button>
+            </div>
+        </div>
+        <div id="alerti" class="alertBox">
+            <!-- <p id="alert"></p> -->
+        </div>
+        <div class="informationFrame" id="vis">
+            <div class="outerFrame">
+                <div class="content" >
+                    <div class="left">
+                       <div class="citynCountry">
+                           <div class="cityName" id="cityinfo" ></div>
+                           <label id="countryInfo"></label>
+                       </div>
+                       <div id="cloudInfo" class="cloudInfo"></div>
+                       <div id="tempInfo" class="tempInfo"></div>
+                       <div id="feelLike" class="feelLike"></div>
+                   </div>
+                    <div class="right">
+                           <img class="wethearImage" id="wethearImg" src="" alt="">
+                           <p id="wethear"></p>
+                   </div>
+                   
+                   </div>
+
+                <div class="bottomRow">
+                    <div class="humidityFrame">
+                        <img src="humidity.png" alt=""> <label id="humidiyTxt" for="">humidity</label>
+                    </div>
+                    <div class="pressureFrame">
+                        <img src="pressure.png" alt=""> <label id="pressureTxt" for="">Pressure</label>
+                    </div>
+                    <div class="windFrame">
+                        <img src="wind.png" alt=""> <label id="windTxt" for="">wind</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="findLocationFrame">
+        <div class="content">
+
+        </div>
+    </div>
+
+    <div class="copyright">
+        <p>Made with ❤️ <label for="">Shiras VM</label> </p>
+    </div>
+    <script>
+        
+       async function search(){
+        vis.style.visibility = "hidden";
+        alerti.style.display="none"
+            let cityName=city.value;
+            
+            cityName=cityName.toLowerCase()
+            if(cityName){
+
+                // let res= await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=8ac5c4d57ba6a4b3dfcf622700447b1e`)
+        //  my token
+                let res= await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=e972b96d0e3834cd2eb7fca0e3b914bc`)
+                // console.log(res);
+                res.json().then((result)=>{
+                    console.log(result);
+                    displayData(result)
+                }).catch((result)=>{
+                    alerti.style.display="flex"
+                    alerti.innerHTML= "City name not found"
+                })
+            }
+            else{
+                alerti.style.display="flex"
+                alerti.innerHTML= "Please enter a city name"
+            }
+        }
+
+        // search for logitude and latitude - begins
+        async function searchLog(lat,log){
+        vis.style.visibility = "hidden";
+        alerti.style.display="none"
+            // let cityName=city.value;
+            
+            // cityName=cityName.toLowerCase()
+            // if(cityName){
+
+                // let res= await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=8ac5c4d57ba6a4b3dfcf622700447b1e`)
+        //  my token
+                let res= await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${log}&appid=e972b96d0e3834cd2eb7fca0e3b914bc&units=metric`)
+                // console.log(res);
+                res.json().then((result)=>{
+                    console.log(result);
+                    city.value=result.name
+                    displayData(result)
+                }).catch((result)=>{
+                    alerti.style.display="flex"
+                    alerti.innerHTML= "City name not found"
+                })
+            
+            // 
+        }
+        // search for logitude and latitude -ends
+
+        function displayData(cityName){
+
+            alerti.style.display="none"
+             if(cityName.main.temp<100){ //to check is the temparature is degree or kelvin (searchlog())
+                tempCelcius=cityName.main.temp
+             }
+             else{
+                tempCelcius=Math.floor((cityName.main.temp-273.15))
+             }
+             if(cityName.main.feels_like<100){
+                feelLikeCelcius=cityName.main.feels_like
+             }else{
+                feelLikeCelcius=Math.floor((cityName.main.feels_like-273.15))
+             }
+
+            vis.style.visibility = "visible";
+            let cityNameLength=cityName.name.length
+            if(cityNameLength>=9){
+                cityinfo.style.fontSize = "30px"
+            }
+            cityinfo.innerHTML=`${cityName.name} `
+            countryInfo.innerHTML=`${cityName.sys.country}`
+            tempInfo.innerHTML=`${tempCelcius} °C`
+            feelLike.innerHTML=`Feel like ${feelLikeCelcius} °C`
+
+            console.log("wethear image = ",cityName.weather[0].main);
+                if(cityName.weather[0].main=='Haze' || cityName.weather[0].main=='Dust' || cityName.weather[0].main=='Fog' || cityName.weather[0].main=='Sand' || cityName.weather[0].main=='Ash' || cityName.weather[0].main=='Squall' || cityName.weather[0].main=='Tornado' ){
+                    wethearImg.src=`Snow.png`
+                }else{
+                    wethearImg.src=`${cityName.weather[0].main}.png`
+                }
+              
+            if(tempCelcius<=0){
+                frame.style.backgroundImage = "url('ice place.jpeg')";
+            }
+            else if(tempCelcius>=39){
+                frame.style.backgroundImage = "url('desert.jpg')";
+            }
+            else{
+                frame.style.backgroundImage = "url('background.avif')";
+            }
+
+            wethear.innerHTML=`${cityName.weather[0].description}`
+
+            humidiyTxt.innerHTML=`${cityName.main.humidity}%`
+            pressureTxt.innerHTML=`${cityName.main.pressure} Pha`
+            windTxt.innerHTML=`${cityName.wind.speed} m/s`
+        }   
+
+        function wethearCheck(){
+            
+        }
+    // To check wethear user press enter key - Begins
+    city.addEventListener("keydown", function (e) {
+    if (e.code === "Enter") {  
+        search()
+    }
+    });
+     // To check wethear user press enter key - Ends
+  
+
+
+
+// Take ip of the user -begins
+
+async function fetchText(){
+    let url="https://ipinfo.io/json?token=67fc6d282cd1ac"
+    let response=await fetch(url)
+    let data= await response.json()
+    console.log(data);
+    city.value=data.city   
+    search()
+    
+    
+
+
+}
+fetchText()
+// take ip of the user -ends
+
+
+
+/*
+// 2nd way to get city name of the user -begins
+function getCoordintes() {
+    var options = {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0
+    };
+  
+    function success(pos) {
+        var crd = pos.coords;
+        var lat = crd.latitude.toString();
+        var lng = crd.longitude.toString();
+        var coordinates = [lat, lng];
+        console.log(`Latitude: ${lat}, Longitude: ${lng}`);
+        getCity(coordinates);
+        return;
+  
+    }
+  
+    function error(err) {
+        console.warn(`ERROR(${err.code}): ${err.message}`);
+    }
+  
+    navigator.geolocation.getCurrentPosition(success, error, options);
+}
+  
+// Step 2: Get city name
+function getCity(coordinates) {
+    var xhr = new XMLHttpRequest();
+    var lat = coordinates[0];
+    var lng = coordinates[1];
+  
+    // Paste your LocationIQ token below.
+    xhr.open('GET', "https://us1.locationiq.com/v1/reverse.php?key=pk.de6fb78fb07ccaaa7ff2868b23b8a593&lat=" +
+    lat + "&lon=" + lng + "&format=json", true);
+    xhr.send();
+    xhr.onreadystatechange = processRequest;
+    xhr.addEventListener("readystatechange", processRequest, false);
+  
+    function processRequest(e) {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            var response = JSON.parse(xhr.responseText);
+            var testCity = response.address.city;
+            console.log(testCity);
+            
+            return;
+        }
+    }
+}
+  
+getCoordintes();
+// 2nd way to get city name of the user -ends
+
+*/
+
+/*
+// method 3 - TO get user long,and lati -begins
+var options = {
+  enableHighAccuracy: true,
+  timeout: 5000,
+  maximumAge: 0
+};
+
+function success(pos) {
+  var crd = pos.coords;
+
+  console.log('Your current position is:');
+  console.log(`Latitude : ${crd.latitude}`);
+  console.log(`Longitude: ${crd.longitude}`);
+  searchLog(crd.latitude,crd.longitude)
+  console.log(`More or less ${crd.accuracy} meters.`);
+}
+
+function error(err) {
+  console.warn(`ERROR(${err.code}): ${err.message}`);
+}
+
+navigator.geolocation.getCurrentPosition(success, error, options);
+
+// method 3 - TO get user long,and lati -ends
+
+*/
+    </script>
+
+
+</body>
+</html>

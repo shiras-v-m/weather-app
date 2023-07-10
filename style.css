@@ -1,0 +1,243 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.container{
+    width: 100%;
+    height: 100vh;
+    background-image: url('background.avif');
+    background-position: center;
+    background-size: cover;
+}
+nav{
+    padding: 1rem;
+}
+nav .logo{
+    display: flex;
+    align-items: center;
+}
+nav .logo img{
+    width: 35px ;
+    pointer-events: none;
+}
+nav .logo label{
+    font-size: 20px;
+    margin-left: 10px;
+    font-weight: 500;
+    color: white;
+}
+
+/* search Box begins*/
+.searchBox{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.searchBox .content{
+    margin-left: 40px;
+    margin-right: 40px;
+    margin-top: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between ;
+    border: 1px solid rgba(255, 255, 255, 0.722);
+    height:45px;
+    width: 500px;
+    padding: 5px 0.9rem;
+    border-radius: 20px;
+    box-shadow: 2px 5px 5px rgba(75, 75, 75, 0.342);
+    
+}
+.searchBox .content:hover{
+    outline: 2px dashed rgb(255, 255, 255);
+}
+
+.searchBox .content input{
+    background: none;
+    color: white;
+    outline: none;
+    border: none;
+    width: 100%;
+    font-size: 20px;
+}
+
+
+input::placeholder { 
+    color: rgba(235, 235, 235, 0.45);
+    opacity: 1; 
+    font-size: 20px;
+  }
+
+
+.searchBox .content button{
+    background: none;
+    outline: none;
+    border: none;
+    
+}
+.searchBox .content button img{
+    width: 22px;
+    cursor: pointer;
+    margin-left: 10px;
+
+ 
+}
+.searchBox .content button img:active{
+    scale: 1.2;
+}
+
+/* search box ends */
+
+
+/* information box begins */
+
+.outerFrame{
+    width: 500px;
+    border-radius: 20px;
+    backdrop-filter: blur(6px);
+    box-shadow: 2px 5px 5px rgba(75, 75, 75, 0.639);
+    margin-left: 40px;
+    margin-right: 40px;
+    padding: 10px;
+
+    border: 1px solid rgba(255, 255, 255, 0.574);
+}
+
+.informationFrame{
+    visibility: hidden;
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.informationFrame .content{
+    
+    display: flex;
+    justify-content: space-between;
+   
+  
+}
+.informationFrame .content .left .cityName,.cloudInfo,.tempInfo,.feelLike{
+    color: white;
+    font-size: 16px;
+        
+   
+}
+.informationFrame .content .left .cityName{
+    font-size: 45px;
+    font-weight: bolder;
+}
+
+.informationFrame .content .left .tempInfo{
+    font-size: 30px;
+    margin-bottom: 5px;
+}
+.informationFrame .content .left .citynCountry {
+    display: flex;
+    align-items: center;
+}
+.feelLike{
+    padding-bottom: 10px;
+}
+
+.informationFrame .content .left .citynCountry label{
+    color: white;
+    margin-left: 12px;
+    font-weight: bolder;
+    margin-top: 10px;
+    
+}
+
+
+.informationFrame .content .right{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: -40px;
+}
+.informationFrame .content .right p{
+    margin-top: -20px;
+    color: white;
+    font-size: 13px;
+}
+.informationFrame .content .wethearImage{
+    animation: motion 4s;
+    animation-iteration-count: infinite;
+    pointer-events: none;
+}
+@keyframes motion{
+    0%{
+  
+        scale: 1  ;
+    }
+    50%{
+        scale: 1.3  ;
+        
+    }
+    100%{
+        scale: 1 ;
+       
+    }
+
+}
+
+.bottomRow{
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.humidityFrame,.pressureFrame,.windFrame{
+    display: flex;
+    align-items: center;
+}
+.humidityFrame img,.pressureFrame img,.windFrame img{
+    width:25px;
+    pointer-events: none;
+}
+.humidityFrame label,.pressureFrame label,.windFrame label{
+    color: white;
+    margin-left: 3px;
+}
+/* information box ends */
+
+
+/* alert box begins */
+.alertBox{
+    margin-top:10px ;
+    display: flex;
+    justify-content: center;
+    
+}
+.alertBox{
+    color: rgb(166, 0, 0);
+    font-weight: 500;
+}
+/* alert box ends */
+
+/* copyright begins */
+.copyright{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 25px;
+    
+}
+.copyright p{
+    color: rgba(0, 0, 0, 0.952);
+    text-align: center;
+    /* text-shadow: 0 0 1px black; */
+    font-size: 10px;
+    
+}
+
+.copyright label{
+    color: rgba(203, 2, 2, 0.679);
+    font-weight: bold;
+    font-size: 12px;
+}
+/* copyright ends */
